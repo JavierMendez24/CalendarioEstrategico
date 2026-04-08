@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Calendario Estratégico | Recuperación de cartera</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Librería para convertir HTML a imagen -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Barra de control de mes/año -->
+        <div class="control-bar">
+            <div class="month-year-selector">
+                <button id="prevMonthBtn" class="nav-btn" aria-label="Mes anterior">◀</button>
+                <select id="monthSelect" class="month-select"></select>
+                <input type="number" id="yearInput" class="year-input" min="2024" max="2030" step="1">
+                <button id="nextMonthBtn" class="nav-btn" aria-label="Mes siguiente">▶</button>
+            </div>
+            <button id="todayBtn" class="action-btn secondary">Hoy</button>
+            <button id="importTextBtn" class="action-btn primary">📄 Importar desde texto</button>
+            <button id="exportImageBtn" class="action-btn secondary">📸 Exportar imagen</button>
+            <button id="resetDataBtn" class="action-btn danger">Restaurar datos de ejemplo</button>
+        </div>
+
+        <!-- Calendario en tabla -->
+        <div class="calendar-wrapper" id="calendarWrapper">
+            <table id="calendarTable" class="calendar-table">
+                <thead>
+                    <tr>
+                        <th>DOMINGO</th><th>LUNES</th><th>MARTES</th><th>MIÉRCOLES</th>
+                        <th>JUEVES</th><th>VIERNES</th><th>SÁBADO</th>
+                    </tr>
+                </thead>
+                <tbody id="calendarBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal para editar / crear actividad -->
+    <div id="activityModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modalTitle">Editar actividad</h3>
+            <input type="hidden" id="modalDate">
+            <input type="hidden" id="modalActivityId">
+            <div class="form-group">
+                <label>Título de la actividad:</label>
+                <input type="text" id="activityTitle" class="form-control" placeholder="Ej. Intensificación multicanal">
+            </div>
+            <div class="form-group">
+                <label>Lista de tareas (una por línea):</label>
+                <textarea id="activityItems" rows="5" class="form-control" placeholder="Escribe cada punto en una línea nueva"></textarea>
+                <small>Se mostrarán como viñetas.</small>
+            </div>
+            <div class="modal-buttons">
+                <button id="saveActivityBtn" class="action-btn primary">Guardar</button>
+                <button id="deleteActivityBtn" class="action-btn danger">Eliminar actividad</button>
+                <button id="cancelModalBtn" class="action-btn secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para importar desde texto -->
+    <div id="importModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close-import-modal">&times;</span>
+            <h3>Importar actividades desde texto</h3>
+            <p style="font-size: 0.8rem; margin-bottom: 12px;">Formato:<br>
+            <strong>MES AÑO</strong> (ej. ABRIL 2026, MAYO 2026)<br>
+            <strong>DIA X:</strong> Título de la actividad<br>
+            <strong>- </strong>ítem 1<br>
+            <strong>- </strong>ítem 2<br>
+            Puedes incluir varios meses y días. Si no pones mes, se usa el actual.</p>
+            <textarea id="importTextarea" rows="12" class="form-control" placeholder="Ejemplo:
+ABRIL 2026
+DIA 1: Segmentación inicial
+- Clasificación por antigüedad
+- Asignación a gestores
+
+MAYO 2026
+DIA 15: Revisión quincenal
+- Indicadores de contacto"></textarea>
+            <div class="modal-buttons" style="margin-top: 20px;">
+                <button id="doImportBtn" class="action-btn primary">Importar y reemplazar</button>
+                <button id="cancelImportBtn" class="action-btn secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
