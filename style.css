@@ -4,17 +4,57 @@
     box-sizing: border-box;
 }
 
+/* Variables para modo claro (por defecto) */
+:root {
+    --bg-body: #eef2f7;
+    --bg-container: white;
+    --text-primary: #1a2c3e;
+    --border-light: #dce5ec;
+    --header-bg: #1e3a5f;
+    --header-text: white;
+    --cell-bg: #fff;
+    --card-bg: #fefdf7;
+    --card-border: #2c7a4d;
+    --day-number-bg: #eef2fa;
+    --day-number-text: #0b3b5f;
+    --empty-day-text: #adb7c2;
+    --button-hover: #d4e0ec;
+    --modal-bg: white;
+    --input-border: #cfdee9;
+    --add-activity-text: #2c6e9e;
+}
+
+/* Variables para modo oscuro */
+body.dark-mode {
+    --bg-body: #121212;
+    --bg-container: #1e1e2e;
+    --text-primary: #e0e0e0;
+    --border-light: #2a2a3a;
+    --header-bg: #0d2b44;
+    --header-text: #e0e0e0;
+    --cell-bg: #2a2a36;
+    --card-bg: #2d2d3a;
+    --card-border: #4a9e6e;
+    --day-number-bg: #3a3a4a;
+    --day-number-text: #c0c0e0;
+    --empty-day-text: #6a6a7a;
+    --button-hover: #3a3a4a;
+    --modal-bg: #2a2a36;
+    --input-border: #4a4a5a;
+    --add-activity-text: #6ab0d6;
+}
+
 body {
     font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    background: #eef2f7;
+    background: var(--bg-body);
     padding: 24px;
-    color: #1a2c3e;
+    color: var(--text-primary);
 }
 
 .app-container {
     max-width: 1900px;
     margin: 0 auto;
-    background: white;
+    background: var(--bg-container);
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     overflow: hidden;
@@ -27,8 +67,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 16px 24px;
-    background: #ffffff;
-    border-bottom: 1px solid #e2edf2;
+    background: var(--bg-container);
+    border-bottom: 1px solid var(--border-light);
     gap: 12px;
 }
 
@@ -36,13 +76,13 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #f8fafc;
+    background: var(--cell-bg);
     padding: 6px 12px;
     border-radius: 48px;
 }
 
 .nav-btn {
-    background: #eef2fa;
+    background: transparent;
     border: none;
     font-size: 1.2rem;
     width: 36px;
@@ -50,21 +90,23 @@ body {
     border-radius: 50%;
     cursor: pointer;
     transition: 0.2s;
-    color: #1e3a5f;
+    color: var(--text-primary);
     font-weight: bold;
 }
 
 .nav-btn:hover {
-    background: #d4e0ec;
+    background: var(--button-hover);
 }
 
 .month-select {
     font-size: 1rem;
     padding: 6px 10px;
     border-radius: 30px;
-    border: 1px solid #cbdde9;
-    background: white;
+    border: 1px solid var(--input-border);
+    background: var(--cell-bg);
+    color: var(--text-primary);
     font-weight: 500;
+    cursor: pointer;
 }
 
 .year-input {
@@ -72,7 +114,9 @@ body {
     font-size: 1rem;
     padding: 6px 8px;
     border-radius: 30px;
-    border: 1px solid #cbdde9;
+    border: 1px solid var(--input-border);
+    background: var(--cell-bg);
+    color: var(--text-primary);
     text-align: center;
     font-weight: 500;
 }
@@ -116,6 +160,27 @@ body {
     color: #991b1b;
 }
 
+/* Modo oscuro - botones secundarios y peligro */
+body.dark-mode .secondary {
+    background: #3a3a4a;
+    color: #e0e0e0;
+}
+
+body.dark-mode .secondary:hover {
+    background: #4a4a5a;
+}
+
+body.dark-mode .danger {
+    background: #4a1a1a;
+    color: #ffaaaa;
+    border-color: #7a2a2a;
+}
+
+body.dark-mode .danger:hover {
+    background: #5a2a2a;
+    color: #ffcccc;
+}
+
 .calendar-wrapper {
     overflow-x: auto;
     padding: 0 0 8px 0;
@@ -129,26 +194,26 @@ body {
 }
 
 .calendar-table th {
-    background: #1e3a5f;
-    color: white;
+    background: var(--header-bg);
+    color: var(--header-text);
     padding: 14px 6px;
     font-weight: 600;
     text-align: center;
-    border: 1px solid #2c5282;
+    border: 1px solid var(--header-bg);
 }
 
 .calendar-table td {
-    border: 1px solid #dce5ec;
+    border: 1px solid var(--border-light);
     vertical-align: top;
-    background-color: #fff;
+    background-color: var(--cell-bg);
     width: 14.28%;
     height: 150px;
     transition: background 0.1s;
 }
 
 .calendar-table td.drop-over {
-    background-color: #eaf4ff;
-    box-shadow: inset 0 0 0 2px #1e6f9f;
+    background-color: var(--button-hover);
+    box-shadow: inset 0 0 0 2px var(--card-border);
 }
 
 .date-header {
@@ -162,13 +227,13 @@ body {
 .day-number {
     font-weight: 700;
     font-size: 1.1rem;
-    background: #eef2fa;
+    background: var(--day-number-bg);
     display: inline-block;
     width: 32px;
     text-align: center;
     border-radius: 30px;
     line-height: 1.8;
-    color: #0b3b5f;
+    color: var(--day-number-text);
 }
 
 .add-activity-btn {
@@ -176,23 +241,23 @@ body {
     border: none;
     font-size: 1.1rem;
     cursor: pointer;
-    color: #2c6e9e;
+    color: var(--add-activity-text);
     font-weight: bold;
     padding: 2px 8px;
     border-radius: 20px;
 }
 
 .add-activity-btn:hover {
-    background: #e2ecf5;
+    background: var(--button-hover);
 }
 
 .activity-card {
-    background: #fefdf7;
+    background: var(--card-bg);
     margin: 4px 8px 8px 8px;
     padding: 8px 10px;
     border-radius: 14px;
-    border-left: 4px solid #2c7a4d;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border-left: 4px solid var(--card-border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     cursor: grab;
     transition: 0.1s;
 }
@@ -203,8 +268,8 @@ body {
 
 .activity-title {
     font-weight: 700;
-    font-size: 0.8rem;
-    color: #1a4c6e;
+    font-size: 0.9rem;
+    color: var(--text-primary);
     margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
@@ -218,6 +283,7 @@ body {
     cursor: pointer;
     opacity: 0.6;
     padding: 0 4px;
+    color: var(--text-primary);
 }
 
 .edit-icon:hover {
@@ -235,20 +301,28 @@ body {
     position: relative;
     margin-bottom: 3px;
     line-height: 1.3;
+    color: var(--text-primary);
 }
 
 .activity-items li::before {
     content: "•";
-    color: #2c6e9e;
+    color: var(--card-border);
     font-weight: bold;
     position: absolute;
     left: -12px;
 }
 
+.empty-cell {
+    background-color: var(--cell-bg);
+    color: var(--empty-day-text);
+    text-align: center;
+    vertical-align: middle;
+}
+
 .empty-day {
     text-align: center;
-    color: #adb7c2;
-    font-size: 0.7rem;
+    color: var(--empty-day-text);
+    font-size: 0.9rem;
     margin-top: 20px;
 }
 
@@ -261,33 +335,35 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(2px);
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--modal-bg);
     margin: 8% auto;
     padding: 24px;
     border-radius: 28px;
     width: 90%;
     max-width: 550px;
-    box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
     position: relative;
 }
 
-.close-modal, .close-import-modal {
+.close-modal,
+.close-import-modal {
     position: absolute;
     right: 20px;
     top: 16px;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-    color: #7f8c8d;
+    color: var(--empty-day-text);
 }
 
-.close-modal:hover, .close-import-modal:hover {
-    color: #2c3e50;
+.close-modal:hover,
+.close-import-modal:hover {
+    color: var(--text-primary);
 }
 
 .form-group {
@@ -299,15 +375,23 @@ body {
     font-weight: 600;
     margin-bottom: 6px;
     font-size: 0.85rem;
+    color: var(--text-primary);
 }
 
 .form-control {
     width: 100%;
     padding: 10px 12px;
     border-radius: 16px;
-    border: 1px solid #cfdee9;
+    border: 1px solid var(--input-border);
+    background-color: var(--cell-bg);
+    color: var(--text-primary);
     font-family: inherit;
     font-size: 0.9rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--card-border);
 }
 
 textarea.form-control {
@@ -321,8 +405,28 @@ textarea.form-control {
     margin-top: 20px;
 }
 
+/* Responsive */
 @media (max-width: 720px) {
-    body { padding: 12px; }
-    .calendar-table td { height: 180px; }
-    .activity-title { font-size: 0.7rem; }
+    body {
+        padding: 12px;
+    }
+    .calendar-table td {
+        height: 180px;
+    }
+    .activity-title {
+        font-size: 0.7rem;
+    }
+    .activity-items {
+        font-size: 0.65rem;
+    }
+    .control-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .month-year-selector {
+        justify-content: center;
+    }
+    .action-btn {
+        text-align: center;
+    }
 }

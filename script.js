@@ -425,14 +425,42 @@ async function exportTableAsImage() {
     exportImageBtn.disabled = true;
     
     try {
+        // Clonar el wrapper para no modificar el original
+        const cloneWrapper = wrapper.cloneNode(true);
+        
+        // Ocultar los botones de agregar actividad (+) en el clon
+        cloneWrapper.querySelectorAll('.add-activity-btn').forEach(btn => {
+            btn.style.display = 'none';
+        });
+        
+        // Ocultar los botones de editar (✏️) en el clon
+        cloneWrapper.querySelectorAll('.edit-icon').forEach(btn => {
+            btn.style.display = 'none';
+        });
+        
+        // Ocultar el texto "Sin actividad" para una imagen más limpia
+        cloneWrapper.querySelectorAll('.empty-day').forEach(el => {
+            // se puede dejar o comentar para mantener el texto
+            el.style.color = 'transparent';
+        });
+        
+        // Aplicar estilos adicionales para la captura
+        cloneWrapper.style.position = 'absolute';
+        cloneWrapper.style.top = '-9999px';
+        cloneWrapper.style.left = '-9999px';
+        document.body.appendChild(cloneWrapper);
+        
         // Usar html2canvas con opciones para alta calidad
-        const canvas = await html2canvas(wrapper, {
+        const canvas = await html2canvas(cloneWrapper, {
             scale: 2,              // Mejor resolución
-            backgroundColor: '#ffffff',
+            backgroundColor: document.body.classList.contains('dark-mode') ? '#121212' : '#ffffff',
             logging: false,
             useCORS: false,
             allowTaint: false
         });
+        
+        // Eliminar el clon del DOM
+        document.body.removeChild(cloneWrapper);
         
         // Crear enlace de descarga
         const link = document.createElement('a');
@@ -484,3 +512,39 @@ doImportBtn.addEventListener('click', doImport);
 
 // Inicialización
 loadFromLocalStorage();
+
+// --- Modo oscuro ---
+const darkModeBtn = document.getElementById('darkModeBtn');
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    
+    // Guardar preferencia en localStorage
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+        darkModeBtn.textContent = '☀️ Modo claro';
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+        darkModeBtn.textContent = '🌙 Modo oscuro';
+    }
+}
+
+// Cargar preferencia guardada
+function loadDarkModePreference() {
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        darkModeBtn.textContent = '☀️ Modo claro';
+    } else {
+        document.body.classList.remove('dark-mode');
+        darkModeBtn.textContent = '🌙 Modo oscuro';
+    }
+}
+
+// Añadir el evento al botón
+if (darkModeBtn) {
+    darkModeBtn.addEventListener('click', toggleDarkMode);
+}
+
+// Llamar a la función al cargar la página
+loadDarkModePreference();
